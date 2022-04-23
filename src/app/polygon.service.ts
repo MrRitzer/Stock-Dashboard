@@ -22,19 +22,11 @@ export class PolygonService {
 
   currentStockSearch = this.stockSearch.asObservable();
 
-  private symbol = new BehaviorSubject('');
-
-  currentSymbol = this.symbol.asObservable();
-
   constructor(private http: HttpClient) { }
 
   getAggregate(sym: string, from: string, to: string): Observable<Aggreates> {
     let url: string = base + sym + "/range/1/day/" + from + "/" + to + "?adjusted=true&sort=asc&limit=100&apiKey=" + key
     return this.http.get<Aggreates>(url);
-  }
-
-  updateSymbol(symbol: string) {
-    this.symbol.next(symbol);
   }
 
   updateStockSearch(stockSearch: StockSearch) {
