@@ -1,14 +1,24 @@
 <div id="search-component">
+    <div class="row">
+        <div class="col-sm-3">
+            <label for="search-box">Stock:</label>
+            <input id="myInput" [disabled]="isDisabled()" [(ngModel)]="searchValue" (input)="search()" placeholder="Search.." />
 
-    <label for="search-box">Stock</label>
-    <input id="myInput" [(ngModel)]="searchValue" (input)="search()" placeholder="Search.." />
-
-    <ul class="search-result">
-        <li *ngFor="let symbol of searchOutput">
-            <a id="button" (click)="getValue(symbol)">
-          {{symbol}}
-        </a>
-        </li>
-    </ul>
-
+            <ul class="search-result">
+                <li *ngFor="let symbol of searchOutput">
+                    <a id="button" (click)="getValue(symbol)">
+              {{symbol}}
+            </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <label for="start">Start Date:</label>
+            <input type="date" id="start" [(ngModel)]="stockSearch.start_date">
+        </div>
+        <div class="col-md-3">
+            <label for="end">End Date:</label>
+            <input type="date" id="end" [(ngModel)]="stockSearch.end_date">
+        </div>
+    </div>
 </div>

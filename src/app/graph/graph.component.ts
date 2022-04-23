@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
+import { StockSearch } from '../models/StockSearch';
 import { Aggreates } from '../models/Aggregates';
 import { Results } from '../models/Results';
 import { PolygonService } from '../polygon.service';
@@ -15,7 +16,12 @@ export class GraphComponent implements OnInit {
 
   results: Array<Results> = [];
 
-  symbol: string = '';
+  stockSearch: StockSearch = { 
+    symbol: '',
+    start_date: '',
+    end_date: ''
+  };
+
   lowest: Array<number> = [];
   highest: Array<number> = [];
   dates: Array<number> = [];
@@ -25,20 +31,12 @@ export class GraphComponent implements OnInit {
     datasets: []
   }
 
-  startDate!: Date;
-  endDate!: Date;
-
   constructor(private polygon: PolygonService) { }
 
   ngOnInit(): void {
-    let today = new Date();
-    let monthAgo = new Date(today);
-    monthAgo.setDate(today.getDate()-30)
-    this.endDate = new Date(today);
-    this.startDate = new Date(monthAgo);
-    this.polygon.currentSymbol.subscribe(data => {
-      this.symbol = data;
-      this.getData(this.symbol,this.startDate.toISOString().substring(0,10),this.endDate.toISOString().substring(0,10));
+    this.polygon.currentStockSearch.subscribe(data => {
+      this.stockSearch = data;
+      this.getData(this.stockSearch.symbol,this.stockSearch.start_date,this.stockSearch.end_date);
     });
   }
 
@@ -85,7 +83,7 @@ export class GraphComponent implements OnInit {
       plugins: {
         title: {
           display: true,
-          text: this.symbol + ': ' + this.startDate.toDateString() + "-" + this.endDate.toDateString(),
+          text: this.stockSearch.symbol + ': ' + this.stockSearch.start_date + "-" + this.stockSearch.end_date,
         },
         legend: {
           position: 'left'

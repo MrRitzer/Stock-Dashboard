@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { StockSearch } from './models/StockSearch';
 
 import { Results } from './models/Results';
 import { Aggreates } from './models/Aggregates';
@@ -12,6 +13,14 @@ const base: string = "https://api.polygon.io/v2/aggs/ticker/";
   providedIn: 'root'
 })
 export class PolygonService {
+
+  private stockSearch = new BehaviorSubject<StockSearch>( { 
+    symbol: '',
+    start_date: '',
+    end_date: ''
+  });
+
+  currentStockSearch = this.stockSearch.asObservable();
 
   private symbol = new BehaviorSubject('');
 
@@ -26,5 +35,9 @@ export class PolygonService {
 
   updateSymbol(symbol: string) {
     this.symbol.next(symbol);
+  }
+
+  updateStockSearch(stockSearch: StockSearch) {
+    this.stockSearch.next(stockSearch);
   }
 }
