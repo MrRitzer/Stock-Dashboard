@@ -1,4 +1,5 @@
-<div class="chart-wrapper">
-    <canvas baseChart [data]="data" [type]="'line'" [options]="chartOptions">
-    </canvas>
+<div class="row">
+    <div *ngFor="let data of data; let index=index;" class="chart-wrapper col-md-6">
+        <canvas baseChart [data]="data" [type]="'line'" [options]="chartOptions[index]"></canvas>
+    </div>
 </div>

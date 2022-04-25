@@ -10,12 +10,15 @@ import { STOCKS } from '../stocks';
 })
 export class SearchComponent implements OnInit {
   stockSearch: StockSearch = { 
-    symbol: '',
+    symbol1: '',
+    symbol2: '',
     start_date: '',
     end_date: ''
   };
-  searchValue : string = '';
-  searchOutput : string[] = [];
+  searchValue1 : string = '';
+  searchOutput1 : string[] = [];
+  searchValue2 : string = '';
+  searchOutput2 : string[] = [];
 
   constructor(private polygon: PolygonService) { }
 
@@ -25,20 +28,39 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  search() {
-    this.searchOutput = [];
-    STOCKS.forEach(element => {
-      if (element.includes(this.searchValue.toUpperCase()) && this.searchValue !== '') {
-        this.searchOutput.push(element);
-      }
-    });
+  search(id: number) {
+    if (id == 1) {
+      this.searchOutput1 = [];
+      STOCKS.forEach(element => {
+        if (element.includes(this.searchValue1.toUpperCase()) && this.searchValue1 !== '') {
+          this.searchOutput1.push(element);
+        }
+      });
+    }
+    if ( id == 2 ) {
+      this.searchOutput2 = [];
+      STOCKS.forEach(element => {
+        if (element.includes(this.searchValue2.toUpperCase()) && this.searchValue2 !== '') {
+          this.searchOutput2.push(element);
+        }
+      });
+    }
   }
 
-  getValue(value: any) {
-    this.searchValue = value;
-    this.stockSearch.symbol = value;
-    this.polygon.updateStockSearch(this.stockSearch);
-    this.searchOutput = [];
+  getValue(value: string, id: number) {
+    if ( id == 1) {
+      this.searchValue1 = value;
+      this.stockSearch.symbol1 = value;
+    }
+    if (id == 2) {
+      this.searchValue2 = value;
+      this.stockSearch.symbol2 = value;
+    }
+    if ( this.stockSearch.symbol1 != '' && this.stockSearch.symbol2 != '') {
+      this.polygon.updateStockSearch(this.stockSearch);
+    }
+    this.searchOutput1 = [];
+    this.searchOutput2 = [];
   }
 
   isDisabled() {
