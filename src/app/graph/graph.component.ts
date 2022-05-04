@@ -70,8 +70,10 @@ export class GraphComponent implements OnInit {
   }
 
   graphData() {
-    let start: Date = new Date(this.stockSearch.start_date)
-    let end: Date = new Date(this.stockSearch.end_date)
+    let start: Date = new Date(this.stockSearch.start_date);
+    let end: Date = new Date(this.stockSearch.end_date);
+    start.setDate(start.getDate() + 1);
+    end.setDate(end.getDate() + 1);
     this.lowest1 = [];
     this.highest1 = [];
     this.dates1 = [];
